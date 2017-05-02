@@ -93,8 +93,8 @@ class TestyTestSkill(MycroftSkill):
             self.speak_dialog("expense", data={'amount': amount})
             self.speak("Your new monthly expense is " + str(monthly + expense))
         except Exception as e:
-            LOG.error("Error: {0}".format(e))
             self.speak_dialog("error", data={'amount': amount})
+            LOGGER.error("Error: {0}".format(e))
 
 
     # The "stop" method defines what Mycroft does when told to stop during
