@@ -64,7 +64,7 @@ class TestyTestSkill(MycroftSkill):
         self.register_intent(service_call_intent, self.handle_service_call_intent)
 
         expense_intent = IntentBuilder("ExpenseIntent").\
-            require("MonthlyExpense").require("Monthly").build()
+            require("MonthlyExpense").optionally("Monthly").build()
         self.register_intent(expense_intent, self.handle_expense_intent)
 
 
