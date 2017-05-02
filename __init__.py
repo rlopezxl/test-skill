@@ -29,6 +29,8 @@ from adapt.intent import IntentBuilder
 from mycroft.skills.core import MycroftSkill
 from mycroft.util.log import getLogger
 
+import requests
+
 __author__ = 'rlopezxl'
 
 # Logger: used for debug lines, like "LOGGER.debug(xyz)". These
@@ -45,8 +47,8 @@ class TestyTestSkill(MycroftSkill):
         super(TestyTestSkill, self).__init__(name="TestyTestSkill")
         self.gender = "male"
         self.name = "ruben"
-        self.agi = "200,000"
-        self.monthly = "3500"
+        self.agi = "400,000"
+        self.monthly = "3,500"
 
     # This method loads the files needed for the skill's functioning, and
     # creates and registers each intent that the skill uses
@@ -56,6 +58,14 @@ class TestyTestSkill(MycroftSkill):
         myself_intent = IntentBuilder("MyselfIntent").\
             require("Myself").build()
         self.register_intent(myself_intent, self.handle_myself_intent)
+
+        service_call_intent = IntentBuilder("ServiceCallIntent").\
+            require("ServiceCall").build()
+        self.register_intent(service_call_intent, self.handle_service_call_intent)
+
+        expense_intent = IntentBuilder("ExpenseIntent").\
+            require("MonthlyExpense").require("monthly").build()
+        self.register_intent(expense_intent, self.handle_expense_intent)
 
 
     # The "handle_xxxx_intent" functions define Mycroft's behavior when
@@ -69,6 +79,22 @@ class TestyTestSkill(MycroftSkill):
         self.speak("Your name is " + self.name)
         self.speak("You make " + self.agi + " dollars a year.")
         self.speak("Your current monthly expenses are " + self.monthly)
+
+    def handle_service_call_intent(self, message):
+        self.speak_dialog("service.call")
+        ip = requests.get("http://www.xldevelopment.net/ip.php")
+        self.speak("Your I.P. is " + ip.text)
+
+    def handle_expense_intent(self, message):
+        amount = message.data.get("Amount")
+        try:
+            expense = int(amount)
+            monthly = int(self.monthly)
+            self.speak_dialog("expense", data={'amount': amount})
+            self.speak("Your new monthly expense is " + str(monthly + expense))
+
+        except:
+            self.speak_dialog("error", data={'amount': amount})
 
 
     # The "stop" method defines what Mycroft does when told to stop during
