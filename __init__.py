@@ -46,7 +46,7 @@ class TestyTestSkill(MycroftSkill):
         super(TestyTestSkill, self).__init__(name="TestyTestSkill")
         self.gender = "male"
         self.name = "ruben"
-        self.agi = "200000"
+        self.agi = "200,000"
         self.monthly = "3500"
 
     # This method loads the files needed for the skill's functioning, and
