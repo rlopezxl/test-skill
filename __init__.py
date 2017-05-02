@@ -47,8 +47,8 @@ class TestyTestSkill(MycroftSkill):
         super(TestyTestSkill, self).__init__(name="TestyTestSkill")
         self.gender = "male"
         self.name = "ruben"
-        self.agi = "400,000"
-        self.monthly = "3,500"
+        self.agi = 400000
+        self.monthly = 3500
 
     # This method loads the files needed for the skill's functioning, and
     # creates and registers each intent that the skill uses
@@ -77,8 +77,8 @@ class TestyTestSkill(MycroftSkill):
     def handle_myself_intent(self, message):
         self.speak_dialog("myself")
         self.speak("Your name is " + self.name)
-        self.speak("You make " + self.agi + " dollars a year.")
-        self.speak("Your current monthly expenses are " + self.monthly)
+        self.speak("You make " + "{:,}".format(self.agi) + " dollars a year.")
+        self.speak("Your current monthly expenses are " + "{:,}".format(self.monthly) + " dollars.")
 
     def handle_service_call_intent(self, message):
         self.speak_dialog("service.call")
@@ -91,7 +91,7 @@ class TestyTestSkill(MycroftSkill):
             expense = int(amount)
             monthly = int(self.monthly)
             self.speak_dialog("expense", data={'amount': amount})
-            self.speak("Your new monthly expense is " + str(monthly + expense))
+            self.speak("Your new monthly expense is " + "{:,}".format(monthly + expense) + " dollars.")
         except Exception as e:
             self.speak_dialog("error", data={'amount': amount})
             LOGGER.error("Error: {0}".format(e))

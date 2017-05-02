@@ -1,1 +1,2 @@
 (of|for) (?P<Amount>.*)
+(of|for) (?P<Amount>.*) dollars
