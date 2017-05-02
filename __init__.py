@@ -92,8 +92,8 @@ class TestyTestSkill(MycroftSkill):
             monthly = int(self.monthly)
             self.speak_dialog("expense", data={'amount': amount})
             self.speak("Your new monthly expense is " + str(monthly + expense))
-
-        except:
+        except Exception as e:
+            LOG.error("Error: {0}".format(e))
             self.speak_dialog("error", data={'amount': amount})
 
 
