@@ -1,2 +1,0 @@
-for (?P<Amount>.*) dollars
-of (?P<Amount>.*) dollars
